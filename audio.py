@@ -6,7 +6,10 @@ import time
 # ==========================
 # Replace with your NEW API KEY
 # ==========================
-API_KEY = ""
+
+import os
+
+API_KEY = os.getenv("GROQ_API_KEY")
 
 client = Groq(api_key=API_KEY)
 
