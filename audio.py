@@ -6,7 +6,8 @@ import time
 # ==========================
 # Replace with your NEW API KEY
 # ==========================
-
+from dotenv import load_dotenv
+load_dotenv()
 import os
 
 API_KEY = os.getenv("GROQ_API_KEY")
