@@ -6,7 +6,7 @@ import time
 # ==========================
 # Replace with your NEW API KEY
 # ==========================
-API_KEY = "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"
+API_KEY = ""
 
 client = Groq(api_key=API_KEY)
 
