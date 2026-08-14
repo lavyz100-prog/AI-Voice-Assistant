@@ -1,0 +1,36 @@
+flowchart TD
+
+    Start(("Start"))
+
+    A["Listen for User Speech"]
+    B["Capture Audio"]
+    C["Convert Speech to Text"]
+    D["Analyze Text"]
+    E["Identify Intent & Entities"]
+    F{"Intent Valid?"}
+    G["Execute Skill / Command"]
+    H["Generate Response"]
+    I["Convert Text to Speech"]
+    J["Play Voice Response"]
+    K["Ask User to Clarify"]
+
+    End(("End"))
+
+    Start --> A
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+
+    F -->|Yes| G
+    F -->|No| K
+
+    K --> A
+
+    G --> H
+    H --> I
+    I --> J
+    J --> A
+
+    A --> End
