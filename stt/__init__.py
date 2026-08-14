@@ -1,12 +1,13 @@
 from .config import STTConfig
 from .service import STT
-from .controller import STTController
-from .states import STTState
+from .exceptions import STTError, MicrophoneError, RecordingError, RecognitionError
 
 
 __all__ = [
     "STT",
     "STTConfig",
-    "STTController",
-    "STTState",
+    "STTError",
+    "MicrophoneError",
+    "RecordingError",
+    "RecognitionError",
 ]

@@ -1,6 +1,5 @@
 import speech_recognition as sr
 
-from .audio import AudioProcessor
 from .exceptions import RecognitionError
 
 
@@ -12,7 +11,14 @@ class Recognizer:
 
     def recognize(self, audio):
 
-        if not AudioProcessor.is_valid(audio):
+        # Validate audio has actual data
+        if audio is None:
+            return None
+
+        try:
+            if len(audio.get_raw_data()) == 0:
+                return None
+        except Exception:
             return None
 
         try:

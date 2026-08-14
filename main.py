@@ -1,16 +1,14 @@
-from stt import STT, STTController
+from stt import STT
 
 
 stt = STT()
-
-controller = STTController(stt)
 
 
 try:
 
     while True:
 
-        text = controller.start()
+        text = stt.listen()
 
         if not text:
             continue
@@ -23,7 +21,3 @@ try:
 except KeyboardInterrupt:
 
     print("\nStopping...")
-
-finally:
-
-    controller.stop()
