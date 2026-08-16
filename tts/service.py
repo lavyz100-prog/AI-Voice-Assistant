@@ -1,5 +1,6 @@
 from .config import TTSConfig
 from .engine import TTSEngine
+from .cleaner import MarkdownCleaner
 
 
 class TTS:
@@ -13,6 +14,12 @@ class TTS:
             return
 
         text = str(text).strip()
+
+        if not text:
+            return
+
+        # Strip markdown so it sounds natural when spoken
+        text = MarkdownCleaner.clean(text)
 
         if text:
             self.engine.speak(text)

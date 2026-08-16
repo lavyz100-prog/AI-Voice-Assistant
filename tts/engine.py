@@ -1,32 +1,49 @@
-import pyttsx3
+import subprocess
+import shutil
 
 
 class TTSEngine:
+    """
+    TTS engine using macOS built-in 'say' command.
+
+    pyttsx3's nsss driver has a fatal bug: runAndWait() corrupts
+    its internal run loop state after the first call, making all
+    subsequent speak() calls silently fail. No amount of threading
+    or engine recreation reliably fixes this.
+
+    The macOS 'say' command is rock-solid, supports multiple voices,
+    and works every time without event loop issues.
+    """
 
     def __init__(self, config):
         self.config = config
-        self.engine = self._create_engine()
+        self._process = None
 
-    def _create_engine(self):
-        engine = pyttsx3.init()
-
-        engine.setProperty("rate", self.config.rate)
-        engine.setProperty("volume", self.config.volume)
-
-        if self.config.voice:
-            engine.setProperty("voice", self.config.voice)
-
-        return engine
+        if not shutil.which("say"):
+            raise RuntimeError(
+                "'say' command not found. "
+                "This TTS engine requires macOS."
+            )
 
     def speak(self, text):
-        print("TTS:", text)
 
-        self.engine.say(text)
-        self.engine.runAndWait()
+        cmd = ["say"]
 
-        # Recreate engine for the next utterance
-        self.engine.stop()
-        self.engine = self._create_engine()
+        # Map rate: pyttsx3 default 170 wpm → say uses ~180-220
+        # say's -r flag takes words per minute directly
+        if self.config.rate:
+            cmd.extend(["-r", str(self.config.rate)])
+
+        if self.config.voice:
+            cmd.extend(["-v", self.config.voice])
+
+        cmd.append(text)
+
+        self._process = subprocess.Popen(cmd)
+        self._process.wait()
+        self._process = None
 
     def stop(self):
-        self.engine.stop()
+        if self._process:
+            self._process.terminate()
+            self._process = None
