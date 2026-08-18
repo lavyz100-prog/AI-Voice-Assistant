@@ -116,17 +116,11 @@ def parse_intent(transcript: str) -> dict:
             "calculator": "calculator",
             "calc": "calculator",
             "file explorer": "file explorer",
-            "explorer": "file explorer",
-            "chrome": "chrome",
-            "edge": "edge",
-            "firefox": "firefox",
-            "vs code": "vs code",
-            "visual studio code": "vs code",
             "command prompt": "command prompt",
             "cmd": "cmd",
             "powershell": "powershell",
             "paint": "paint",
-            "notepad++": "notepad++",
+           
         }
         for kw, app_name in _APP_KEYWORDS.items():
             if kw in t:
